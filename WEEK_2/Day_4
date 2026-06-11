@@ -1,0 +1,70 @@
+//1.
+
+class Solution {
+public:
+    string reverseWords(string s) {
+        stack<char> st;
+        string ans="";
+
+        for(char ch: s){
+            if(ch!=' '){
+                st.push(ch);
+            }else{
+                while(!st.empty()){
+                    ans +=st.top();
+                    st.pop();
+                }
+                ans+=' ';
+            }
+        }
+        while(!st.empty()){
+            ans+=st.top();
+            st.pop();
+        }
+        return ans;
+    }
+};
+
+
+
+//2.
+
+
+class Solution {
+public:
+    string decodeString(string s) {
+        stack<int> nostack;
+        stack<string> strstack;
+        string ans="";
+        int cnt=0;
+
+        for(char ch: s){
+            if(isdigit(ch)){
+                cnt=cnt*10+(ch-'0');
+            }else if(ch=='['){
+                nostack.push(cnt);
+                strstack.push(ans);
+                ans="";
+                cnt=0;
+            }else if(ch==']'){
+                int rpt = nostack.top();
+                nostack.pop();
+                string prev = strstack.top();
+                strstack.pop();
+
+                for(int i=0;i<rpt;i++){
+                    prev+=ans;
+                }
+                ans=prev;
+            }else{
+                ans+=ch;
+            }
+        }
+        return ans;
+    }
+};
+
+
+//3.
+
+couldn't solve
