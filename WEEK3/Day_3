@@ -1,0 +1,97 @@
+//1.
+
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char> st;
+        for(char ch : s)
+        if(ch=='(' || ch=='{' || ch=='['){
+        st.push(ch);
+        }
+        else{
+             if(st.empty()) return false;
+            if(ch==')' && st.top()!= '(') return false;
+            if(ch=='}' && st.top()!= '{') return false;
+            if(ch==']' && st.top()!= '[') return false;
+            st.pop();
+        }
+        return st.empty();
+    }
+};
+
+
+//2.
+
+class MinStack {
+public:
+    stack<long long> st;
+    long long mini;
+    long long x;
+    MinStack() {
+        
+    }
+    
+    void push(int val) {
+       if(st.empty()) {
+        mini = val;
+       st.push(val);}
+        else{
+        if(val > mini){
+            st.push(val);
+        }else{
+            st.push(2LL*val-mini);
+            mini = val;
+        }
+       }
+    }
+    
+    void pop() {
+       if(st.empty()) return;
+       x = st.top();
+       st.pop();
+       if(x<mini){
+        mini=2*mini-x;
+       }
+    }
+    
+    int top() {
+        if(st.empty()) return -1;
+
+        x=st.top();
+        if(x < mini){
+            return mini;
+        }else{
+            return x;
+        }
+    }
+    
+    int getMin() {
+       return mini;
+    }
+};
+
+
+//3.
+
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+    int n1 = nums1.size();
+    int n2 = nums2.size();
+    stack<int> st;
+    unordered_map<int, int> mpp;
+
+    for(int i =n2-1;i>=0;i--){
+        while(!st.empty() && st.top()<=nums2[i]) st.pop();
+        if(st.empty()) mpp[nums2[i]]=-1;
+        else
+        mpp[nums2[i]] = st.top();
+        st.push(nums2[i]);
+    }
+    vector<int> result;
+    for(int i =0; i<n1 ; i++){
+    result.push_back(mpp[nums1[i]]);
+    }
+    return result;
+    }
+};
