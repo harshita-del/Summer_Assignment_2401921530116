@@ -1,0 +1,57 @@
+//1.
+
+class MyQueue {
+public:
+    stack<int> in, out;
+
+    MyQueue() {
+        
+    }
+    
+    void push(int x) {
+        in.push(x);
+    }
+    
+    int pop() {
+        peek();
+        int val = out.top();
+        out.pop();
+        return val;
+    }
+    
+    int peek() {
+        if (out.empty()) {
+            while (!in.empty()) {
+                out.push(in.top());
+                in.pop();
+            }
+        }
+        return out.top();
+    }
+    
+    bool empty() {
+        return in.empty() && out.empty();
+    }
+};
+
+//2.
+
+
+class RecentCounter {
+public:
+    queue<int> q;
+
+    RecentCounter() {
+        
+    }
+    
+    int ping(int t) {
+        q.push(t);
+
+        while (!q.empty() && q.front() < t - 3000) {
+            q.pop();
+        }
+
+        return q.size();
+    }
+};
